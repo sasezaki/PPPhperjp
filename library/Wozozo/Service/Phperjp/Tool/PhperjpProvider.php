@@ -57,7 +57,7 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
     protected $responseFormat = '.json';
     protected $outputAdapter = 'PhpCode';
     protected $serializer;
-
+    
     public function lists()
     {
         $client = $this->getRestClient();
@@ -202,8 +202,8 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
 
     protected function getSerializer()
     {
-        if (!$this->serializer instanceof Zend_Serializer_Adapter_AdapterInteface) {
-            if ($outputAdapter = $this->_registry->getConfig()->service->phperjp->ouputadapter) {
+        if (!$this->serializer instanceof Zend_Serializer_Adapter_AdapterInterface) {
+            if ($outputAdapter = $this->_registry->getConfig()->service->phperjp->outputadapter) {
                 $this->outputAdapter = $outputAdapter;
             }
             $this->serializer = Zend_Serializer::factory($this->outputAdapter);
@@ -211,5 +211,4 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
 
         return $this->serializer;
     }
-
 }
