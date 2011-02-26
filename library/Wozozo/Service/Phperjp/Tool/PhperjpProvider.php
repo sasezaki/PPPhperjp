@@ -75,11 +75,6 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
     {
         $response = $this->getRestClient()
                  ->restGet('/projects/'.$projectId.$this->responseFormat);
-        
-        // きのせい(2011/02/23)
-        //if (preg_match('#^\s*$#', $response->getBody())) {
-        //    throw new UnexpectedValueException('response is empty!'.$response->getBody());    
-        //}
 
         $var = $this->handleResponse($response);
 
@@ -118,9 +113,10 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
      */
     public function update($projectId, $description)
     {
+        die;
         $data = array('project' => compact('description'));
         $response = $this->getRestClient()
-                 ->restPut('/projects/'.$projectId, $a = Zend_Json::encode($data));
+                 ->restPut('/projects/'.$projectId.$this->responseFormat, Zend_Json::encode($data));
 
         $var = $this->handleResponse($response);
 
@@ -135,7 +131,32 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
     public function destroy($projectId)
     {
         $response = $this->getRestClient()
-                 ->restDelete('/projects/'.$projectId);
+                 ->restDelete('/projects/'.$projectId.$this->responseFormat);
+
+        $this->_registry
+             ->getResponse()
+             ->appendContent($response->getMessage());
+    }
+
+    public function deploy($projectId)
+    {
+        $response = $this->getRestClient()
+                 ->restGet('/projects/'.$projectId.'/deploy'.$this->responseFormat);
+
+        $this->_registry
+             ->getResponse()
+             ->appendContent($response->getMessage());
+    }
+
+    /****************
+     *
+     * key command
+     *
+     ***************/
+    public function keys()
+    {
+        $response = $this->getRestClient()
+                 ->restGet('/keys'.$this->responseFormat);
 
         $var = $this->handleResponse($response);
 
@@ -144,11 +165,32 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
              ->appendContent($var);
     }
 
-    public function deploy()
+    /**
+     * not tested.
+     */
+    public function keysCreate($public_key)
     {
         $response = $this->getRestClient()
-                 ->restGet('/projects/'.$projectId.'/deploy'.$this->responseFormat);
+                 ->restPost('/keys'.$this->responseFormat, Zend_Json::encode(array('key' => compact('public_key'))));
 
+        $var = $this->handleResponse($response);
+
+        $this->_registry
+             ->getResponse()
+             ->appendContent($var);
+    }
+
+    /****************
+     *
+     * server command
+     *
+     ***************/
+
+    public function servers($projectId)
+    {
+        $client = $this->getRestClient();
+        $response = $client->restGet('/projects/'.$projectId.'/servers'.$this->responseFormat);
+        
         $var = $this->handleResponse($response);
 
         $this->_registry
@@ -161,13 +203,27 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
      *
      * //@todo なんかうまくいかない
      */
-    public function serversCreate($name, $fqdn, $root = 'public', $projectId = 'default')
+    public function serversCreate($projectId, $name = 0, $fqdn = 0, $root = 'public')
     {
-        if ('default' === $projectId) throw new Exception('not implemented yet');
+        if (null === $projectId) throw new Exception('Default handle not implemented yet');
 
-        $data = array('server' => compact('name', 'fqdn', 'root'));
         $response = $this->getRestClient()
-                 ->restPost('/projects/'.$projectId.'/servers'.$this->responseFormat, Zend_Json::encode($data));
+                 ->restGet('/projects/'.$projectId.'/servers/new'.$this->responseFormat);
+
+        // @todo should check response
+        $data = Zend_Json::Decode($response->getBody());
+        //var_dump($data);
+
+        $default = $data['server'];
+
+        $post = array('server' => array());
+        $post['server']['name'] = ($name) ? $name :$default['name'];
+        $post['server']['fqdn'] = ($fqdn) ? $fqdn :$default['fqdn'];
+        $post['server']['root'] = ($root) ? $root :$default['root'];
+        //var_dump($post);
+
+        $response = $this->getRestClient()
+                 ->restPost('/projects/'.$projectId.'/servers'.$this->responseFormat, Zend_Json::encode($post));
 
         $var = $this->handleResponse($response);
 
@@ -176,16 +232,40 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
              ->appendContent($var);
     }
 
+    public function serversDelete($projectId, $serverId)
+    {
+        $response = $this->getRestClient()
+                 ->restDelete('/projects/'.$projectId.'/servers/'.$serverId.$this->responseFormat);
+
+        $this->_registry
+             ->getResponse()
+             ->appendContent($response->getMessage());
+    }
+    
+
     protected function handleResponse($response)
     {
-        if ('.json' === $this->responseFormat) {
-            $decode = Zend_Json::decode($response->getBody());
-        } elseif ('.xml' === $this->responseFormat) {
-            //@todo
-            //var_dump($response);
+        if (!$response->isSuccessful()) {
+            throw new Exception('Response returns Error '. $response->getStatus().' : '. $response->getMessage());
         }
 
-        return $this->getSerializer()->serialize($decode); 
+        try {
+            if ('.json' === $this->responseFormat) {
+                $decode = Zend_Json::decode($response->getBody());
+            } elseif ('.xml' === $this->responseFormat) {
+                //@todo
+                //var_dump($response);
+            }
+
+            return $this->getSerializer()->serialize($decode);
+        } catch (Exception $e) {
+            throw new UnexpectedValueException(
+                                               'Exception occured :'. $e->getMessage().PHP_EOL.
+                                               'Response body is :'. substr($response->getBody(), 0, 20). '..',
+                                               $e->getCode(),
+                                               $e
+                                               );
+        }
     }
 
     protected function getRestClient()
