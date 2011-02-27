@@ -54,9 +54,18 @@ require_once 'Zend/Tool/Framework/Provider/Abstract.php';
 class Wozozo_Service_Phperjp_Tool_PhperjpProvider
     extends Zend_Tool_Framework_Provider_Abstract
 {
+    /**
+     * @var Zend_Rest_Client
+     */
+    protected $restClient;
+
     protected $responseFormat = '.json';
     protected $outputAdapter = 'PhpCode';
     protected $serializer;
+
+    /****************
+     * project command
+     ***************/
     
     public function lists()
     {
@@ -107,22 +116,20 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
 
     /**
      * update project (プロジェクトの更新)
-     *
-     * @todo うまくいかない
-     *
      */
     public function update($projectId, $description)
     {
-        die;
         $data = array('project' => compact('description'));
-        $response = $this->getRestClient()
-                 ->restPut('/projects/'.$projectId.$this->responseFormat, Zend_Json::encode($data));
 
-        $var = $this->handleResponse($response);
+        $httpClient = $this->getRestClient()->getHttpClient();
+        $httpClient->setEncType(Zend_Http_Client::ENC_FORMDATA);
+
+        $response = $this->getRestClient()
+                 ->restPut('/projects/'.$projectId.$this->responseFormat, $data);
 
         $this->_registry
              ->getResponse()
-             ->appendContent($var);
+             ->appendContent($var->getStatus());
     }
 
     /**
@@ -149,10 +156,9 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
     }
 
     /****************
-     *
      * key command
-     *
      ***************/
+
     public function keys()
     {
         $response = $this->getRestClient()
@@ -181,9 +187,7 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
     }
 
     /****************
-     *
      * server command
-     *
      ***************/
 
     public function servers($projectId)
@@ -201,7 +205,6 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
     /**
      * create application server (アプリケーションサーバの作成)
      *
-     * //@todo なんかうまくいかない
      */
     public function serversCreate($projectId, $name = 0, $fqdn = 0, $root = 'public')
     {
@@ -211,19 +214,16 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
                  ->restGet('/projects/'.$projectId.'/servers/new'.$this->responseFormat);
 
         // @todo should check response
-        $data = Zend_Json::Decode($response->getBody());
-        //var_dump($data);
+        $data = Zend_Json::Decode($prev = $response->getBody());
 
         $default = $data['server'];
-
         $post = array('server' => array());
         $post['server']['name'] = ($name) ? $name :$default['name'];
         $post['server']['fqdn'] = ($fqdn) ? $fqdn :$default['fqdn'];
         $post['server']['root'] = ($root) ? $root :$default['root'];
-        //var_dump($post);
 
         $response = $this->getRestClient()
-                 ->restPost('/projects/'.$projectId.'/servers'.$this->responseFormat, Zend_Json::encode($post));
+                 ->restPost('/projects/'.$projectId.'/servers'.$this->responseFormat, $post);
 
         $var = $this->handleResponse($response);
 
@@ -241,7 +241,6 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
              ->getResponse()
              ->appendContent($response->getMessage());
     }
-    
 
     protected function handleResponse($response)
     {
@@ -270,14 +269,17 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
 
     protected function getRestClient()
     {
-        $config = $this->_registry->getConfig()->service->phperjp;
+        if (!$this->restClient instanceof Zend_Rest_Client) {
+            $config = $this->_registry->getConfig()->service->phperjp;
 
-        $client = new Zend_Http_Client;
-        $client->setAdapter('Zend_Http_Client_Adapter_Curl');
-        $client->setAuth($config->username, $config->password);
-        Zend_Rest_Client::setHttpClient($client);
+            $client = new Zend_Http_Client;
+            $client->setAdapter('Zend_Http_Client_Adapter_Curl');
+            $client->setAuth($config->username, $config->password);
+            Zend_Rest_Client::setHttpClient($client);
+            $this->restClient = new Zend_Rest_Client('https://phper.jp');
+        }
 
-        return new Zend_Rest_Client('https://phper.jp/');
+        return $this->restClient;
     }
 
     protected function getSerializer()
