@@ -129,7 +129,7 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
 
         $this->_registry
              ->getResponse()
-             ->appendContent($var->getStatus());
+             ->appendContent($response->getMessage());
     }
 
     /**
@@ -274,6 +274,11 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
 
             $client = new Zend_Http_Client;
             $client->setAdapter('Zend_Http_Client_Adapter_Curl');
+            
+            if (!isset($config->username) or !isset($config->password)) {
+                throw new Exception('Not Configured... "service.phperjp" in ".zf.ini"');
+            }
+
             $client->setAuth($config->username, $config->password);
             Zend_Rest_Client::setHttpClient($client);
             $this->restClient = new Zend_Rest_Client('https://phper.jp');
