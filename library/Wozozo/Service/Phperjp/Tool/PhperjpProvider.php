@@ -63,6 +63,8 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
     protected $outputAdapter = 'PhpCode';
     protected $serializer;
 
+    protected $_specialties = array('ModifiedGet');
+
     /****************
      * project command
      ***************/
@@ -204,7 +206,6 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
 
     /**
      * create application server (アプリケーションサーバの作成)
-     *
      */
     public function serversCreate($projectId, $name = 0, $fqdn = 0, $root = 'public')
     {
@@ -240,6 +241,48 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
         $this->_registry
              ->getResponse()
              ->appendContent($response->getMessage());
+    }
+
+    public function hosts()
+    {
+    
+    }
+
+    /************************
+     * files command
+     *************************/
+
+    public function files($projectId, $host, $name = null)
+    {
+        if ($name) {
+            $path = sprintf('/projects/%s/hosts/%s/files/%s', $projectId, $host, rawurlencode($name)). $this->responseFormat;
+        } else {
+            $path = sprintf('/projects/%s/hosts/%s/files', $projectId, $host). $this->responseFormat;
+        }
+
+        $response = $this->getRestClient()->restGet($path);
+
+        $var = $this->handleResponse($response);
+
+        $this->_registry->getResponse()->appendContent($var);
+    }
+
+    public function filesModifiedGet($projectId, $host)
+    {
+        $path = sprintf('/projects/%s/hosts/%s/files/%s', $projectId, $host, rawurlencode('modified')). $this->responseFormat;
+        $response = $this->getRestClient()->restGet($path);
+        $modifieds = Zend_Json::decode($response->getBody());
+
+        //$this->_registry->getResponse()->appendContent(var_export($modified, true));
+        foreach ($modifieds as $modified) {
+            // @todo check すでにローカルにあるファイル
+            $fileid = $modified['file']['id'];
+            $path = sprintf('/projects/%s/hosts/%s/files/%s', $projectId, $host, $fileid). $this->responseFormat;
+            $response = $this->getRestClient()->restGet($path);
+            $fileObj = new Wozozo_Service_Phperjp_File($response, $this->responseFormat);
+            $fileObj->save();
+            $this->_registry->getResponse()->appendContent('--> '.$modified['file']['name']);
+        }
     }
 
     protected function handleResponse($response)
@@ -297,5 +340,38 @@ class Wozozo_Service_Phperjp_Tool_PhperjpProvider
         }
 
         return $this->serializer;
+    }
+}
+
+class Wozozo_Service_Phperjp_File
+{
+    //protected $response;
+    //protected $responseFormat;
+    protected $fileArray;
+
+    public function __construct(Zend_Http_Response $response, $format)
+    {
+        if ('.json' === $format) {
+            $decoded = Zend_Json::decode($response->getBody());
+            $this->fileArray = $decoded['file'];
+        }
+        //$this->response = $response;
+        //$this->responseFormat = $format;
+    }
+
+    public function getName()
+    {
+        return $this->fileArray['name'];
+    }
+
+    public function getContents()
+    {
+        return $this->fileArray['contents'];
+    }
+
+    // @todo 
+    public function save($path = null)
+    {
+        file_put_contents($this->getName(), $this->getContents());
     }
 }
