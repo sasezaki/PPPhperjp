@@ -1,10 +1,9 @@
 <?php
 namespace PPPhperjp;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
-use Zend\ServiceManager\ServiceManager;
-
-use Zend\Serializer\Adapter\AdapterInteface as SerializerAdapter;
+use Zend\Http\Client as HttpClient;
+use Zend\Rest\Client\RestClient;
+use Zend\Serializer\Adapter\AdapterInterface as SerializerAdapter;
 
 /**
   Phperjp
@@ -48,12 +47,10 @@ Commands:
 */
 
 
-class Client implements ServiceManagerAwareInterface
+class Client
 {
     protected $username;
     protected $password;
-
-    protected $serviceManager;
 
     /**
      * @var Zend_Rest_Client
@@ -64,15 +61,10 @@ class Client implements ServiceManagerAwareInterface
     protected $outputAdapter = 'PhpCode';
     protected $serializer;
 
-    public function __construct($username, $password, ServiceManager $serviceManager = null)
+    public function __construct($username, $password)
     {
         $this->username = $username;
         $this->password = $password;
-    }
-
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
     }
 
     /****************
@@ -81,13 +73,10 @@ class Client implements ServiceManagerAwareInterface
     
     public function lists()
     {
-        $client = $this->serviceManager->get('rest');
-        //$client->getHttpClient()->setAuth($this->username, $this->password);
+        $client = $this->getRestClient();
         $response = $client->restGet('/projects'.$this->responseFormat);
         
-        $var = $this->handleResponse($response);
-
-        var_dump($var);
+        return $this->handleResponse($response);
     }
     
     // @todo listsで取得したものを保存し、一致するかのチェック
@@ -288,7 +277,7 @@ class Client implements ServiceManagerAwareInterface
             $fileid = $modified['file']['id'];
             $path = sprintf('/projects/%s/hosts/%s/files/%s', $projectId, $host, $fileid). $this->responseFormat;
             $response = $this->getRestClient()->restGet($path);
-            $fileObj = new Wozozo_Service_Phperjp_File($response, $this->responseFormat);
+            $fileObj = new File($response, $this->responseFormat);
             $fileObj->save();
             $this->_registry->getResponse()->appendContent('--> '.$modified['file']['name']);
         }
@@ -308,8 +297,7 @@ class Client implements ServiceManagerAwareInterface
                 //var_dump($response);
             }
 
-            //return $this->getSerializer()->serialize($decode);
-            return var_dump($decode);
+            return $this->getSerializer()->serialize($decode);
         } catch (Exception $e) {
             throw new UnexpectedValueException(
                                                'Exception occured :'. $e->getMessage().PHP_EOL.
@@ -322,18 +310,19 @@ class Client implements ServiceManagerAwareInterface
 
     protected function getRestClient()
     {
-        if (!$this->restClient instanceof Zend_Rest_Client) {
+        if (!$this->restClient instanceof RestClient) {
 
-            $client = new Zend_Http_Client;
-            $client->setAdapter('Zend_Http_Client_Adapter_Curl');
+            $client = new HttpClient;
+            $client->setAdapter(new \Zend\Http\Client\Adapter\Curl);
             
-            if (!isset($config->username) or !isset($config->password)) {
-                throw new Exception('Not Configured... "service.phperjp" in ".zf.ini"');
+            if (empty($this->username) or empty($this->password)) {
+                throw new \Exception('Not Configured... "service.phperjp" in ".zf.ini"');
             }
 
-            $client->setAuth($config->username, $config->password);
-            Zend_Rest_Client::setHttpClient($client);
-            $this->restClient = new Zend_Rest_Client('https://phper.jp');
+            $restClient = new RestClient("https://phper.jp");
+            $restClient->setHttpClient($client);
+            $restClient->getHttpClient()->getUri()->setUser($this->username)->setPassword($this->password);
+            $this->restClient = $restClient;
         }
 
         return $this->restClient;
@@ -341,11 +330,8 @@ class Client implements ServiceManagerAwareInterface
 
     protected function getSerializer()
     {
-        if (!$this->serializer instanceof Zend_Serializer_Adapter_AdapterInterface) {
-            if ($outputAdapter = $this->_registry->getConfig()->service->phperjp->outputadapter) {
-                $this->outputAdapter = $outputAdapter;
-            }
-            $this->serializer = Zend_Serializer::factory($this->outputAdapter);
+        if (!$this->serializer instanceof SerializerAdapter) {
+            $this->serializer = \Zend\Serializer\Serializer::factory($this->outputAdapter);
         }
 
         return $this->serializer;
