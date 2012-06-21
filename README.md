@@ -1,5 +1,5 @@
-Wozozo_Service_Phperjp
-=====================
+PPPhperjp - PHP porting phper(.jp) command
+==========================================
 
-A Service Client for phper.jp
+A CLI tool for phper.jp
 
