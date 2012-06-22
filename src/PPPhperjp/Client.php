@@ -79,7 +79,9 @@ class Client
         return $this->handleResponse($response);
     }
     
-    // @todo listsで取得したものを保存し、一致するかのチェック
+    /** 
+     * @todo listsで取得したものを保存し、一致するかのチェック
+     */
     public function info($projectId)
     {
         $response = $this->getRestClient()

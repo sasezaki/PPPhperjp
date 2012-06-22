@@ -2,20 +2,19 @@
 
 namespace PPPhperjp;
 
+use Zend\Http\Response;
+use Zend\Json\Json;
+
 class File
 {
-    //protected $response;
-    //protected $responseFormat;
     protected $fileArray;
 
-    public function __construct(Zend_Http_Response $response, $format)
+    public function __construct(Response $response, $format)
     {
         if ('.json' === $format) {
-            $decoded = Zend_Json::decode($response->getBody());
+            $decoded = Json::decode($response->getBody());
             $this->fileArray = $decoded['file'];
         }
-        //$this->response = $response;
-        //$this->responseFormat = $format;
     }
 
     public function getName()
