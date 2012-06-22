@@ -4,15 +4,15 @@ namespace PPPhperjpTest;
 use Zend\ServiceManager\ServiceManager;
 
 use PPPhperjp\Client;
+use PPPhperjp\Console;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ConsoleTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoad()
     {
         global $username, $password;
-        $client = new Client($username, $password);
-        $ret = $client->lists();
-        var_dump($ret);
+        $console = new Console(new Client($username, $password));
+        $console->optionHelp();
     }
 }
 

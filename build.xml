@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PPPhperjp" default="build">
+
+ <taskdef name="stripforphar" classname="tasks.StripForPharTask" />
+
+ <property name="basedir" value="." />
+  <!-- ugly!! please edit property! -->
+  <property name="zf2" value="/home/kazusuke/dev/zendframework_zf2" />
+ <property name="pyrus" value="~/dev/pyrus_Pyrus/scripts/pyrus" />
+
+ <!-- copy ZF2 -->
+ <target name="zf2copy">
+  <copy toDir="${basedir}/src">
+   <fileset dir="${zf2}/library">
+    <!-- <include name="Zend/Registry.php" /> -->
+    <!-- <include name="Zend/Cache/**/*.php" /> -->
+    <!-- <include name="Zend/Code/**/*.php" /> -->
+    <include name="Zend/Config/**/*.php" />
+    <include name="Zend/Console/**/*.php" />
+    <!-- <include name="Zend/Di/**/*.php" /> -->
+    <!-- <include name="Zend/Dom/Css2Xpath.php" /> -->
+    <!-- <include name="Zend/EventManager/**/*.php" /> -->
+    <include name="Zend/Http/**/*.php" />
+    <include name="Zend/Json/Json.php" />
+    <include name="Zend/Json/Exception/*.php" />
+    <include name="Zend/Json/Decoder.php" />
+    <include name="Zend/Json/Encoder.php" />
+    <include name="Zend/Log/**/*.php" />
+    <include name="Zend/Rest/Client/*.php" />
+    <include name="Zend/Service/AbstractService.php" />
+    <include name="Zend/ServiceManager/**/*.php" />
+    <include name="Zend/Serializer/**/*.php" />
+    <include name="Zend/Stdlib/**/*.php" />
+    <include name="Zend/Loader/**/*.php" />
+    <include name="Zend/Uri/**/*.php" />
+    <include name="Zend/Validator/ValidatorInterface.php" />
+    <include name="Zend/Validator/AbstractValidator.php" />
+    <include name="Zend/Validator/Hostname.php" />
+    <include name="Zend/Validator/Hostname/**/*.php" />
+    <include name="Zend/Validator/Ip.php" />
+    <include name="Zend/Validator/Exception/**/*.php" />
+   </fileset>
+  </copy>
+ </target>
+
+ <target name="patch">
+    <!--
+    <patch
+     patchfile="my.patch"
+     dir="${zf2}"/>-->
+ </target>
+
+ <target name="strip">
+    <stripforphar dir="./src/Zend" />
+ </target>
+ <target name="phar">
+  <exec command="php -d phar.readonly=0 ${pyrus} make" />
+  <exec command="php -d phar.readonly=0 ${pyrus} package -p" />
+  <move file="PPPhperjp-0.1.0.phar" tofile="phper.phar" overwrite="true"/>
+ </target>
+
+ <target name="clean">
+  <delete dir="${basedir}/src/Zend" />
+ </target>
+ <target name="build" depends="clean, patch, zf2copy, strip, phar" />
+</project>

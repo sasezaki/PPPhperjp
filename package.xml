@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
+ <name>PPPhperjp</name>
+ <channel>__uri</channel>
+ <summary>Package Miffie summary.\n\n&quot; . &quot;Package detailed description here (found in README)</summary>
+ <description>PHPer.jp tool</description>
+ <lead>
+  <name>sasezaki</name>
+  <user>sasezaki</user>
+  <email>sasezaki@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2012-06-22</date>
+ <time>11:51:47</time>
+ <version>
+  <release>0.1.0</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/mit-license.php">MIT</license>
+ <notes>Package  PPPhperjp</notes>
+ <contents>
+  <dir name="/">
+   <dir name="src" baseinstalldir="/">
+    <dir name="PPPhperjp">
+     <file role="php" name="Client.php"/>
+     <file role="php" name="Console.php"/>
+     <file role="php" name="File.php"/>
+    </dir>
+    <dir name="Zend">
+     <dir name="Config">
+      <dir name="Exception">
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="RuntimeException.php"/>
+      </dir>
+      <dir name="Processor">
+       <file role="php" name="Constant.php"/>
+       <file role="php" name="Filter.php"/>
+       <file role="php" name="ProcessorInterface.php"/>
+       <file role="php" name="Queue.php"/>
+       <file role="php" name="Token.php"/>
+       <file role="php" name="Translator.php"/>
+      </dir>
+      <dir name="Reader">
+       <file role="php" name="Ini.php"/>
+       <file role="php" name="Json.php"/>
+       <file role="php" name="ReaderInterface.php"/>
+       <file role="php" name="Xml.php"/>
+       <file role="php" name="Yaml.php"/>
+      </dir>
+      <dir name="Writer">
+       <file role="php" name="AbstractWriter.php"/>
+       <file role="php" name="Ini.php"/>
+       <file role="php" name="Json.php"/>
+       <file role="php" name="PhpArray.php"/>
+       <file role="php" name="WriterInterface.php"/>
+       <file role="php" name="Xml.php"/>
+       <file role="php" name="Yaml.php"/>
+      </dir>
+      <file role="php" name="Config.php"/>
+      <file role="php" name="Factory.php"/>
+     </dir>
+     <dir name="Console">
+      <dir name="Exception">
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="RuntimeException.php"/>
+      </dir>
+      <file role="php" name="Getopt.php"/>
+     </dir>
+     <dir name="Http">
+      <dir name="Client">
+       <dir name="Adapter">
+        <dir name="Exception">
+         <file role="php" name="ExceptionInterface.php"/>
+         <file role="php" name="InitializationException.php"/>
+         <file role="php" name="InvalidArgumentException.php"/>
+         <file role="php" name="OutOfRangeException.php"/>
+         <file role="php" name="RuntimeException.php"/>
+         <file role="php" name="TimeoutException.php"/>
+        </dir>
+        <file role="php" name="AdapterInterface.php"/>
+        <file role="php" name="Curl.php"/>
+        <file role="php" name="Proxy.php"/>
+        <file role="php" name="Socket.php"/>
+        <file role="php" name="StreamInterface.php"/>
+        <file role="php" name="Test.php"/>
+       </dir>
+       <dir name="Exception">
+        <file role="php" name="ExceptionInterface.php"/>
+        <file role="php" name="InvalidArgumentException.php"/>
+        <file role="php" name="OutOfRangeException.php"/>
+        <file role="php" name="RuntimeException.php"/>
+       </dir>
+       <file role="php" name="Cookies.php"/>
+      </dir>
+      <dir name="Exception">
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="OutOfRangeException.php"/>
+       <file role="php" name="RuntimeException.php"/>
+      </dir>
+      <dir name="Header">
+       <dir name="Exception">
+        <file role="php" name="ExceptionInterface.php"/>
+        <file role="php" name="InvalidArgumentException.php"/>
+        <file role="php" name="RuntimeException.php"/>
+       </dir>
+       <file role="php" name="AbstractAccept.php"/>
+       <file role="php" name="AbstractDate.php"/>
+       <file role="php" name="AbstractLocation.php"/>
+       <file role="php" name="Accept.php"/>
+       <file role="php" name="AcceptCharset.php"/>
+       <file role="php" name="AcceptEncoding.php"/>
+       <file role="php" name="AcceptLanguage.php"/>
+       <file role="php" name="AcceptRanges.php"/>
+       <file role="php" name="Age.php"/>
+       <file role="php" name="Allow.php"/>
+       <file role="php" name="AuthenticationInfo.php"/>
+       <file role="php" name="Authorization.php"/>
+       <file role="php" name="CacheControl.php"/>
+       <file role="php" name="Connection.php"/>
+       <file role="php" name="ContentDisposition.php"/>
+       <file role="php" name="ContentEncoding.php"/>
+       <file role="php" name="ContentLanguage.php"/>
+       <file role="php" name="ContentLength.php"/>
+       <file role="php" name="ContentLocation.php"/>
+       <file role="php" name="ContentMD5.php"/>
+       <file role="php" name="ContentRange.php"/>
+       <file role="php" name="ContentType.php"/>
+       <file role="php" name="Cookie.php"/>
+       <file role="php" name="Date.php"/>
+       <file role="php" name="Etag.php"/>
+       <file role="php" name="Expect.php"/>
+       <file role="php" name="Expires.php"/>
+       <file role="php" name="From.php"/>
+       <file role="php" name="GenericHeader.php"/>
+       <file role="php" name="GenericMultiHeader.php"/>
+       <file role="php" name="HeaderInterface.php"/>
+       <file role="php" name="Host.php"/>
+       <file role="php" name="IfMatch.php"/>
+       <file role="php" name="IfModifiedSince.php"/>
+       <file role="php" name="IfNoneMatch.php"/>
+       <file role="php" name="IfRange.php"/>
+       <file role="php" name="IfUnmodifiedSince.php"/>
+       <file role="php" name="KeepAlive.php"/>
+       <file role="php" name="LastModified.php"/>
+       <file role="php" name="Location.php"/>
+       <file role="php" name="MaxForwards.php"/>
+       <file role="php" name="MultipleHeaderInterface.php"/>
+       <file role="php" name="Pragma.php"/>
+       <file role="php" name="ProxyAuthenticate.php"/>
+       <file role="php" name="ProxyAuthorization.php"/>
+       <file role="php" name="Range.php"/>
+       <file role="php" name="Referer.php"/>
+       <file role="php" name="Refresh.php"/>
+       <file role="php" name="RetryAfter.php"/>
+       <file role="php" name="Server.php"/>
+       <file role="php" name="SetCookie.php"/>
+       <file role="php" name="TE.php"/>
+       <file role="php" name="Trailer.php"/>
+       <file role="php" name="TransferEncoding.php"/>
+       <file role="php" name="Upgrade.php"/>
+       <file role="php" name="UserAgent.php"/>
+       <file role="php" name="Vary.php"/>
+       <file role="php" name="Via.php"/>
+       <file role="php" name="Warning.php"/>
+       <file role="php" name="WWWAuthenticate.php"/>
+      </dir>
+      <dir name="PhpEnvironment">
+       <file role="php" name="Request.php"/>
+       <file role="php" name="Response.php"/>
+      </dir>
+      <dir name="Response">
+       <file role="php" name="Stream.php"/>
+      </dir>
+      <file role="php" name="Client.php"/>
+      <file role="php" name="ClientStatic.php"/>
+      <file role="php" name="Cookies.php"/>
+      <file role="php" name="HeaderLoader.php"/>
+      <file role="php" name="Headers.php"/>
+      <file role="php" name="Request.php"/>
+      <file role="php" name="Response.php"/>
+     </dir>
+     <dir name="Json">
+      <dir name="Exception">
+       <file role="php" name="BadMethodCallException.php"/>
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="RecursionException.php"/>
+       <file role="php" name="RuntimeException.php"/>
+      </dir>
+      <file role="php" name="Decoder.php"/>
+      <file role="php" name="Encoder.php"/>
+      <file role="php" name="Json.php"/>
+     </dir>
+     <dir name="Loader">
+      <dir name="Exception">
+       <file role="php" name="BadMethodCallException.php"/>
+       <file role="php" name="DomainException.php"/>
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="InvalidPathException.php"/>
+       <file role="php" name="MissingResourceNamespaceException.php"/>
+       <file role="php" name="PluginLoaderException.php"/>
+       <file role="php" name="RuntimeException.php"/>
+       <file role="php" name="SecurityException.php"/>
+      </dir>
+      <file role="php" name="AutoloaderFactory.php"/>
+      <file role="php" name="Broker.php"/>
+      <file role="php" name="ClassMapAutoloader.php"/>
+      <file role="php" name="LazyLoadingBroker.php"/>
+      <file role="php" name="ModuleAutoloader.php"/>
+      <file role="php" name="Pluggable.php"/>
+      <file role="php" name="PluginBroker.php"/>
+      <file role="php" name="PluginClassLoader.php"/>
+      <file role="php" name="PluginClassLocator.php"/>
+      <file role="php" name="PluginSpecBroker.php"/>
+      <file role="php" name="PrefixPathLoader.php"/>
+      <file role="php" name="PrefixPathMapper.php"/>
+      <file role="php" name="ShortNameLocator.php"/>
+      <file role="php" name="SplAutoloader.php"/>
+      <file role="php" name="StandardAutoloader.php"/>
+     </dir>
+     <dir name="Log">
+      <dir name="Exception">
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="RuntimeException.php"/>
+      </dir>
+      <dir name="Filter">
+       <file role="php" name="FilterInterface.php"/>
+       <file role="php" name="Priority.php"/>
+       <file role="php" name="Regex.php"/>
+       <file role="php" name="SuppressFilter.php"/>
+       <file role="php" name="Validator.php"/>
+      </dir>
+      <dir name="Formatter">
+       <file role="php" name="ErrorHandler.php"/>
+       <file role="php" name="ExceptionHandler.php"/>
+       <file role="php" name="FormatterInterface.php"/>
+       <file role="php" name="Simple.php"/>
+       <file role="php" name="Xml.php"/>
+      </dir>
+      <dir name="Writer">
+       <file role="php" name="AbstractWriter.php"/>
+       <file role="php" name="Db.php"/>
+       <file role="php" name="Mail.php"/>
+       <file role="php" name="Mock.php"/>
+       <file role="php" name="Null.php"/>
+       <file role="php" name="Stream.php"/>
+       <file role="php" name="Syslog.php"/>
+       <file role="php" name="WriterInterface.php"/>
+       <file role="php" name="ZendMonitor.php"/>
+      </dir>
+      <file role="php" name="Filter.php"/>
+      <file role="php" name="Formatter.php"/>
+      <file role="php" name="Logger.php"/>
+      <file role="php" name="LoggerAwareInterface.php"/>
+      <file role="php" name="LoggerInterface.php"/>
+      <file role="php" name="Writer.php"/>
+      <file role="php" name="WriterBroker.php"/>
+      <file role="php" name="WriterLoader.php"/>
+     </dir>
+     <dir name="Rest">
+      <dir name="Client">
+       <file role="php" name="RestClient.php"/>
+       <file role="php" name="Result.php"/>
+      </dir>
+     </dir>
+     <dir name="Serializer">
+      <dir name="Adapter">
+       <file role="php" name="AbstractAdapter.php"/>
+       <file role="php" name="AdapterInterface.php"/>
+       <file role="php" name="Amf0.php"/>
+       <file role="php" name="Amf3.php"/>
+       <file role="php" name="IgBinary.php"/>
+       <file role="php" name="Json.php"/>
+       <file role="php" name="PhpCode.php"/>
+       <file role="php" name="PhpSerialize.php"/>
+       <file role="php" name="PythonPickle.php"/>
+       <file role="php" name="Wddx.php"/>
+      </dir>
+      <dir name="Exception">
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="ExtensionNotLoadedException.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="RuntimeException.php"/>
+      </dir>
+      <file role="php" name="AdapterBroker.php"/>
+      <file role="php" name="AdapterLoader.php"/>
+      <file role="php" name="Serializer.php"/>
+     </dir>
+     <dir name="Service">
+      <file role="php" name="AbstractService.php"/>
+     </dir>
+     <dir name="ServiceManager">
+      <dir name="Di">
+       <file role="php" name="DiAbstractServiceFactory.php"/>
+       <file role="php" name="DiInstanceManagerProxy.php"/>
+       <file role="php" name="DiServiceFactory.php"/>
+       <file role="php" name="DiServiceInitializer.php"/>
+      </dir>
+      <dir name="Exception">
+       <file role="php" name="CircularDependencyFoundException.php"/>
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="InvalidServiceNameException.php"/>
+       <file role="php" name="RuntimeException.php"/>
+       <file role="php" name="ServiceNotCreatedException.php"/>
+       <file role="php" name="ServiceNotFoundException.php"/>
+      </dir>
+      <file role="php" name="AbstractFactoryInterface.php"/>
+      <file role="php" name="Configuration.php"/>
+      <file role="php" name="ConfigurationInterface.php"/>
+      <file role="php" name="FactoryInterface.php"/>
+      <file role="php" name="InitializerInterface.php"/>
+      <file role="php" name="ServiceLocatorAwareInterface.php"/>
+      <file role="php" name="ServiceLocatorInterface.php"/>
+      <file role="php" name="ServiceManager.php"/>
+      <file role="php" name="ServiceManagerAwareInterface.php"/>
+     </dir>
+     <dir name="Stdlib">
+      <dir name="Exception">
+       <file role="php" name="BadMethodCallException.php"/>
+       <file role="php" name="DomainException.php"/>
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="InvalidCallbackException.php"/>
+       <file role="php" name="LogicException.php"/>
+      </dir>
+      <dir name="Hydrator">
+       <file role="php" name="ArraySerializable.php"/>
+       <file role="php" name="ClassMethods.php"/>
+       <file role="php" name="HydratorInterface.php"/>
+       <file role="php" name="ObjectProperty.php"/>
+      </dir>
+      <file role="php" name="ArraySerializableInterface.php"/>
+      <file role="php" name="ArrayStack.php"/>
+      <file role="php" name="ArrayUtils.php"/>
+      <file role="php" name="CallbackHandler.php"/>
+      <file role="php" name="DispatchableInterface.php"/>
+      <file role="php" name="ErrorHandler.php"/>
+      <file role="php" name="Glob.php"/>
+      <file role="php" name="Message.php"/>
+      <file role="php" name="MessageInterface.php"/>
+      <file role="php" name="Options.php"/>
+      <file role="php" name="ParameterObjectInterface.php"/>
+      <file role="php" name="Parameters.php"/>
+      <file role="php" name="ParametersInterface.php"/>
+      <file role="php" name="PriorityQueue.php"/>
+      <file role="php" name="Request.php"/>
+      <file role="php" name="RequestInterface.php"/>
+      <file role="php" name="Response.php"/>
+      <file role="php" name="ResponseInterface.php"/>
+      <file role="php" name="SplPriorityQueue.php"/>
+      <file role="php" name="SplQueue.php"/>
+      <file role="php" name="SplStack.php"/>
+     </dir>
+     <dir name="Uri">
+      <dir name="Exception">
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="InvalidUriException.php"/>
+       <file role="php" name="InvalidUriPartException.php"/>
+       <file role="php" name="InvalidUriTypeException.php"/>
+      </dir>
+      <file role="php" name="File.php"/>
+      <file role="php" name="Http.php"/>
+      <file role="php" name="Mailto.php"/>
+      <file role="php" name="Uri.php"/>
+      <file role="php" name="UriFactory.php"/>
+     </dir>
+     <dir name="Validator">
+      <dir name="Exception">
+       <file role="php" name="BadMethodCallException.php"/>
+       <file role="php" name="ExceptionInterface.php"/>
+       <file role="php" name="ExtensionNotLoadedException.php"/>
+       <file role="php" name="InvalidArgumentException.php"/>
+       <file role="php" name="InvalidMagicMimeFileException.php"/>
+       <file role="php" name="RuntimeException.php"/>
+      </dir>
+      <dir name="Hostname">
+       <file role="php" name="Biz.php"/>
+       <file role="php" name="Cn.php"/>
+       <file role="php" name="Com.php"/>
+       <file role="php" name="Jp.php"/>
+      </dir>
+      <file role="php" name="AbstractValidator.php"/>
+      <file role="php" name="Hostname.php"/>
+      <file role="php" name="Ip.php"/>
+      <file role="php" name="ValidatorInterface.php"/>
+     </dir>
+    </dir>
+   </dir>
+   <dir name="tests" baseinstalldir="/">
+    <dir name="PPPhperjp">
+     <file role="test" name="ClientTest.php"/>
+     <file role="test" name="ConsoleTest.php"/>
+    </dir>
+    <file role="test" name="bootstrap.dev.php"/>
+    <file role="test" name="bootstrap.php"/>
+    <file role="test" name="phpunit.xml"/>
+    <file role="test" name="phpunit.xml.dist"/>
+   </dir>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.2</min>
+   </php>
+   <pearinstaller>
+    <min>2.0.0a2</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease/>
+</package>
